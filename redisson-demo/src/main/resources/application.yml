@@ -1,0 +1,20 @@
+# 应用名称
+server:
+  port: 8099
+spring:
+  application:
+    name:
+      redisson-demo
+  redis:
+    redisson:
+      config: classpath:redisson-conf-local.yml
+    database: 0
+    cluster:
+      nodes: 192.168.170.19:6380,192.168.170.19:6381,192.168.170.19:6382,192.168.170.19:6383,192.168.170.19:6384,192.168.170.19:6385
+    password: hzjy123
+    pool:
+      max-active: -1
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0

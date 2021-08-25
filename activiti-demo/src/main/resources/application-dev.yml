@@ -1,0 +1,89 @@
+# 应用名称
+server:
+  port: 9033
+  servlet:
+    context-path: /inteli-activiti
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 1000
+      min-spare: 30
+    # 最大吞吐量不限制
+    max-swallow-size: -1
+    # 优雅停机 关闭容器后默认等待30秒继续执行没处理完的任务 避免数据不一致
+    shutdown: graceful
+spring:
+  lifecycle:
+    # 配置优雅停机后的缓冲器 最大等待时间
+    timeout-per-shutdown-phase: 10S
+  datasource:
+    url: jdbc:mysql://192.168.170.19:3306/inteli-activiti?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: hzjy123
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: root
+        login-password: hzjy123
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 开启监控sql
+          enabled: true
+          # 显示并标注慢sql 默认当超过3秒显示
+          log-slow-sql: true
+          slow-sql-millis: 3000
+          merge-sql: true
+        # 防SQL注入过滤
+        wall:
+          config:
+            # 允许多条sql同时执行
+            multi-statement-allow: true
+
+  jackson:
+    time-zone: GMT+8
+    serialization:
+      fail-on-empty-beans: false
+# 接口文档增强UI Swagger界面内容配置
+knife4j:
+  enable: true
+swagger:
+  title: Inteli Platform API接口文档
+  description: Inteli Api Documentation
+  version: 1.0.0
+  # 分组名
+  group: 1.Inteli Platform v1.0
+# Mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+# 日志
+logging:
+  # 输出级别
+  level:
+    root: info
+  file:
+    # 指定路径
+    path: inteli-logs
+  logback:
+    rollingpolicy:
+      # 最大保存天数
+      max-history: 7
+      # 每个文件最大大小
+      max-file-size: 50MB
+# 建议不要
+inteli:
+  templates-path: E:\src\inteli-modules
+  temp-instance-path: E:\src\temp-instance
+
+nexus:
+  jar-filter-url: http://119.3.190.255:8081/service/extdirect

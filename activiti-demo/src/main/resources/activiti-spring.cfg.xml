@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:conext="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+    <bean id = "processEnginConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+<!--       数据源-->
+        <property name="dataSource" ref = "dataSource"/>
+<!--        使用Spring事务管理器-->
+        <property name="transactionManager" ref = "transactionManager"/>
+<!--        数据库策略-->
+        <property name="databaseSchemaUpdate" value="true"/>
+<!--        Activiti定时任务关闭-->
+        <property name="jobExecutorActivate" value="false"/>
+    </bean>
+<!--    流程引擎-->
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEnginConfiguration"/>
+    </bean>
+<!--    资源服务service-->
+    <bean id = "repositoryService" factory-bean="processEngine"
+          factory-method="getRepositoryService"/>
+<!--    流程运行Service-->
+    <bean id = "runtimeService" factory-bean="processEngine"
+          factory-method="getRuntimeService"/>
+    <!--    任务管理Service-->
+    <bean id = "taskService" factory-bean="processEngine"
+          factory-method="getTaskService"/>
+    <!--    历史管理Service-->
+    <bean id = "historyService" factory-bean="processEngine"
+          factory-method="getHistoryService"/>
+<!--    引擎管理service-->
+    <bean id = "managementService" factory-bean="processEngine"
+          factory-method="getManagementService"/>
+
+    <bean id = "dynamicBpmnService" factory-bean="processEngine"
+          factory-method="getDynamicBpmnService"/>
+<!-- 数据源-->
+    <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://192.168.170.19:3306/inteli_activiti?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=GMT%2B8&amp;nullCatalogMeansCurrent=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="hzjy123"/>
+        <property name="maxActive" value="3"/>
+        <property name="maxIdle" value="1"/>
+    </bean>
+    <bean id = "transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!--    通知-->
+    <tx:advice id = "txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+<!--            传播行为-->
+            <tx:method name="save" propagation="REQUIRED"/>
+            <tx:method name="insert" propagation="REQUIRED"/>
+            <tx:method name="delete" propagation="REQUIRED"/>
+            <tx:method name="update" propagation="REQUIRED"/>
+            <tx:method name="find" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="ge t" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+<!--    切面，根据具体项目配置-->
+    <aop:config proxy-target-class="true">
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(*
+        top.sorie.activitidemo.service.impl.*.*(..))"/>
+    </aop:config>
+</beans>

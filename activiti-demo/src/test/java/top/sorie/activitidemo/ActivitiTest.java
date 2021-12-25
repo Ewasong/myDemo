@@ -22,9 +22,9 @@ public class ActivitiTest {
         ProcessEngine defaultProcessEngine = ProcessEngines.getDefaultProcessEngine();
         RepositoryService repositoryService = defaultProcessEngine.getRepositoryService();
         Deployment deployment = repositoryService.createDeployment()
-                .name("xx")
+                .name("出差申请-uel")
                 .addClasspathResource("bpmn/test1.bpmn20.xml")
-                .addClasspathResource("bpmn/test2.bpmn20.png")
+                .addClasspathResource("bpmn/test1.png")
                 .deploy();
         // 输出部署信息
         System.out.println("deploymentId=" + deployment.getId());
@@ -129,15 +129,15 @@ public class ActivitiTest {
         // RepositoryService
         RepositoryService repositoryService = defaultProcessEngine.getRepositoryService();
         // 通过部署id来删除流程信息
-        String deploymentId = "12501";
-        repositoryService.deleteDeployment(deploymentId);
+        String deploymentId = "4efc5571-0651-11ec-9ccf-70cf496007a2";
+        repositoryService.deleteDeployment(deploymentId, true);
 //        repositoryService.deleteDeployment(deploymentId, true);
     }
 
     /***
      * 下载 资源文件
      * 方案1: 使用activiti的api
-     * 方案2: 自己写代码从数据库中，使用jdbc对blob类型，读取出来，保存到文件目录
+     * 方案2: 自己写代码 从数据库中，使用jdbc对blob类型，读取出来，保存到文件目录
      * 解决io操作: commons-io.jar
      * 这里使用方案1
      */
@@ -151,31 +151,31 @@ public class ActivitiTest {
         ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery();
         // 通过流程定义信息, 获取部署ID
         ProcessDefinition definition = repositoryService.createProcessDefinitionQuery()
-                .processDefinitionKey("test1")
+                .processDefinitionKey("test4")
                 .singleResult();
         // 通过RepositoryService，传递部署id参数，获取资源信息
         // --获取png图片的流 为啥是null 注意png文件不能有多个点
         // https://github.com/Activiti/Activiti/issues/3714
         System.out.println(definition.getDiagramResourceName());
-        InputStream pngResourceAsStream = repositoryService.getResourceAsStream(
-                definition.getDeploymentId(), definition.getDiagramResourceName());
+//        InputStream pngResourceAsStream = repositoryService.getResourceAsStream(
+//                definition.getDeploymentId(), definition.getDiagramResourceName());
         // --获取bpmn的流
         System.out.println(definition.getResourceName());
         InputStream bpmnResourceAsStream = repositoryService.getResourceAsStream(
                 definition.getDeploymentId(), definition.getResourceName());
         // 构造Outputstream流
-        File pngFile = new File("D:/temp/evectionFlow01.png");
-        File bpmn = new File("D:/temp/evectionFlow01.bpmn20.xml");
-        FileOutputStream pngFileOutputSteam = new FileOutputStream(pngFile);
+//        File pngFile = new File("D:/temp/evectionFlow01.png");
+        File bpmn = new File("D:/temp/evectionFlow04.bpmn20.xml");
+//        FileOutputStream pngFileOutputSteam = new FileOutputStream(pngFile);
         FileOutputStream bpmnFileOutputSteam = new FileOutputStream(bpmn);
 
         // 输入流，输出流的转换
-        IOUtils.copy(pngResourceAsStream, pngFileOutputSteam);
+//        IOUtils.copy(pngResourceAsStream, pngFileOutputSteam);
         IOUtils.copy(bpmnResourceAsStream, bpmnFileOutputSteam);
         // 关闭流
-        IOUtils.close(pngResourceAsStream);
+//        IOUtils.close(pngResourceAsStream);
         IOUtils.close(bpmnResourceAsStream);
-        IOUtils.close(pngFileOutputSteam);
+//        IOUtils.close(pngFileOutputSteam);
         IOUtils.close(bpmnFileOutputSteam);
     }
 

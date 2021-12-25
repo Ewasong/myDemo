@@ -1,0 +1,60 @@
+# 应用名称
+spring:
+  application:
+    name: activiti-boot-demo
+  datasource:
+    url: jdbc:mysql://192.168.170.19:3306/inteli_activiti?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: hzjy123
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: root
+        login-password: hzjy123
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 开启监控sql
+          enabled: true
+          # 显示并标注慢sql 默认当超过3秒显示
+          log-slow-sql: true
+          slow-sql-millis: 3000
+          merge-sql: true
+        # 防SQL注入过滤
+        wall:
+          config:
+            # 允许多条sql同时执行
+            multi-statement-allow: true
+    jackson:
+      time-zone: GMT+8
+      serialization:
+        fail-on-empty-beans: false
+  activiti:
+    #1. flase:默认值。activiti在启动时，对比数据库表中保存的版本，
+    #   如果没有表或者版本不匹配，将抛出异常
+    #2. true: agtiviti会对数据库中所有表进行更新操作。如果表不存在，则自动创建
+    #3. create_drop: #3.create_ _drop: 在activit1启动时创建表， 在关闭时删除表(必须手动关闭引擎，才能删除表)
+    #4. drop-create:在activit启动时删除原 来的旧表，然后在创建新表(不需要手动关闭引擎)
+    database-schema-update: true
+    # 生成历史表
+    db-history-used: true
+    # 历史记录存储登记
+    # 记录历史等级可配置的历史级别有none, activity, audit, fu1l
+    #none:不保存任何的历史数据，因此，在流程执行过程中，这是最高效的。
+    #activity: 级别高于none， 保存流程实例与流程行为，其他数据不保存。
+    #audit:除activity级 别会保存的数据外，还会你存全部的流程任务及其属性。audi t为history的默认值。
+    #fu1l:保存历史数据的最高级别，除了会保存audit级别的数据外，还会保存其他全部流程相关的细节数据，包括一些流程参 数等。
+    history-level: full
+    #校验流程文件，默认校验resources下的processes文件夹里的流程文件
+    check-process-definitions: true
+

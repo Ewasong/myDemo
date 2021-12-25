@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.sorie</groupId>
-    <artifactId>activiti-demo</artifactId>
+    <artifactId>activiti-boot-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>activiti-demo</name>
+    <name>activiti-boot-demo</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -23,55 +23,16 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper -->
         <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <version>3.7.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-engine</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.activiti/activiti-spring-boot-starter -->
         <dependency>
             <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring</artifactId>
+            <artifactId>activiti-spring-boot-starter</artifactId>
             <version>${activiti.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-bpmn-model</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-bpmn-converter</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-json-model</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-bpmn-layout</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-cloud-services-api</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-cloud-services-api</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-
-        <!-- Mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -94,25 +55,14 @@
             <version>${gson.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -156,7 +106,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.7.RELEASE</version>
                 <configuration>
-                    <mainClass>top.sorie.activitidemo.ActivitiDemoApplication</mainClass>
+                    <mainClass>top.sorie.activitibootdemo.ActivitiBootDemoApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
